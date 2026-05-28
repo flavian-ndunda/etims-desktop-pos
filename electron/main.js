@@ -21,7 +21,7 @@ const store       = new Store();
 
 // Path to the Laravel app — sibling folder by default
 const laravelPath = process.env.LARAVEL_PATH ||
-    path.join(__dirname, "..", "..", "etims-pos");
+    path.join('C:\\Users\\flavi\\OneDrive\\Desktop\\etims-pos');
 
 let mainWindow, tray, phpServer, queueWorker, connectivityMon;
 let isOnline    = false;
@@ -222,13 +222,16 @@ function notifyRenderer(channel, data = {}) {
 }
 
 function getPhpBinary() {
-    if (isDev) return process.platform === "win32" ? "php" : "php8.3";
+    // Always use system PHP in development
+    if (isDev || !app.isPackaged) {
+        return process.platform === 'win32' ? 'php' : 'php8.3';
+    }
+    // Only use bundled PHP in production (packaged app)
     const res = process.resourcesPath;
-    return process.platform === "win32"
-        ? path.join(res, "php", "php.exe")
-        : path.join(res, "php", "php");
+    return process.platform === 'win32'
+        ? path.join(res, 'php', 'php.exe')
+        : path.join(res, 'php', 'php');
 }
-
 async function shutdownGracefully() {
     connectivityMon?.stop();
     await queueWorker?.stop();
