@@ -1,0 +1,59 @@
+{
+  "name": "etims-desktop-pos",
+  "version": "1.0.0",
+  "description": "Offline-first desktop POS for KRA eTIMS. Built with Electron + Laravel.",
+  "main": "electron/main.js",
+  "author": {
+    "name": "Flavian Ndunda",
+    "email": "flavianndunda@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "cross-env NODE_ENV=development electron .",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --win --linux"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.2",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.1.8"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^29.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "ke.co.flavytech.etims-desktop-pos",
+    "productName": "eTIMS POS",
+    "copyright": "Copyright 2024 Flavytech Solutions",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "bin/php",
+        "to": "php",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }]
+    },
+    "linux": {
+      "target": [{ "target": "AppImage", "arch": ["x64"] }],
+      "category": "Office"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "eTIMS POS"
+    }
+  }
+}
